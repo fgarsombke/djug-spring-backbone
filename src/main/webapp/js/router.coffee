@@ -16,7 +16,7 @@ define (require) ->
     
     showUsers: () ->
       @userView = once.getUserView()
-      @userView.render()
+      @userView.init()
   
     defaultAction: (actions) ->
       ## We have no matching route, lets display the servers

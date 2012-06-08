@@ -4,6 +4,6 @@ define (require) ->
   _ = require 'underscore'
   Backbone = require 'backbone'
 
-  userModel = Backbone.Model.extend
+  class userModel extends Backbone.Model
 
   return userModel

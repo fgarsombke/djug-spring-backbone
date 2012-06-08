@@ -5,8 +5,10 @@ define (require) ->
   Backbone = require 'backbone'
   userModel = require 'cs!models/userModel'
 
-  userCollection = Backbone.Collection.extend
-    url: -> 'users',
+  class userCollection extends Backbone.Collection
+  
+    url: -> 'users'
+  
     model: userModel
 
   return userCollection
