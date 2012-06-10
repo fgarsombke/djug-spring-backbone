@@ -6,6 +6,7 @@ define (require) ->
   userCollection = require 'cs!collections/userCollection'  
   userModel = require 'cs!models/userModel'  
   userTemplate = require 'text!templates/user/userTemplate.html'
+  editUserTemplate = require 'text!templates/user/editUserTemplate.html'
   
   class userView extends Backbone.View
   
@@ -20,17 +21,45 @@ define (require) ->
 
     events:
         "click .createUser": "createUser" 
-        "click .deleteUser": "deleteUser" 
+        "click button.deleteUser": "deleteUser" 
+        "click button.editUser": "editUser"
+        "click button.updateUser": "updateUser"
 
     createUser: ->
       ## Create a new user model instance and set the fields from the form
       newUserModel = new userModel()
       userName = $("#userName").val()
-      newUserModel.set 'name', userName
+      userEmail = $("#userEmail").val()
+      newUserModel.set 'name': userName, 'email': userEmail
       ## persist the model
-      @userCollection.create newUserModel, success: (model, response) =>
-        @refreshData()
-        error: (model, response) ->        
+      @userCollection.create newUserModel,
+        success: (model, response) =>
+          @refreshData()
+        error: (model, response) ->
+          console.log 'ERROR' + response
+
+    editUser: (e)->
+      $userTr = $(e.target).closest('tr')
+      $userTr.empty()
+      userId = $(e.currentTarget).attr("id").replace("edit_user_","")
+
+      data =
+        user: @userCollection.get(userId)
+        _:_
+
+      compiledTemplate = _.template editUserTemplate, data
+      $userTr.append compiledTemplate
+
+    updateUser: (e)->
+      userId = $(e.currentTarget).attr "id"
+      modelToUpdate = @userCollection.get userId
+      modelToUpdate.save
+        name: $("#userNameUpdate").val()
+        email: $("#userEmailUpdate").val()
+      ,
+        success: (model, response)=>
+          @refreshData()
+        error: (model, response)=>
           console.log 'ERROR' + response
 
     deleteUser: (event)->

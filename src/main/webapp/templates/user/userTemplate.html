@@ -2,7 +2,9 @@ Users:
 <table class="table table-striped table-condensed">
   <thead>
     <tr>
-      <th>name</th>
+      <th></th>
+      <th>Name</th>
+      <th>Email</th>
       <th></th>
     </tr>
   </thead>
@@ -10,23 +12,29 @@ Users:
   <% _.each(users, function(user){ %>
    <tr>
      <td>
+       <i class="icon-user"></i>
+     </td>
+     <td>
       <%= user.get('name') %>
      </td>
      <td>
-       <button id="<%= user.get('id') %>" class="btn btn-primary deleteUser" href="javascript:void(0)">delete</button>
+      <%= user.get('email') %>
+     </td>
+     <td style="text-align:right">
+       <button id="<%= user.get('id') %>" class="btn btn-danger btn-small deleteUser" href="javascript:void(0)">
+        <i class="icon-trash icon-white"></i></button>
+        <button id="edit_user_<%= user.get('id') %>" class="btn btn-warning btn-small editUser" href="javascript:void(0)">
+        <i class="icon-pencil icon-white"></i></button>
      </td>             
    </tr>
   <% }); %>
   </tbody>
 </table>
-<table class="table table-condensed">
-  <thead>
-  </thead>
-     <tr>
-       <td><input id="userName" class="input-medium" placeholder="user name" type="text"/></td>
-       <td>
-         <button id="createUserButton" class="btn btn-primary createUser" href="javascript:void(0)">create</button>
-       </td>        
-     </tr> 
-  </tbody>
-</table>    
+<form class="well form-inline">
+  <legend>Create User</legend>
+  <input id="userName" class="input-medium" placeholder="user name" type="text"/>
+  <input id="userEmail" class="input-medium" placeholder="user email" type="text"/>
+  <button id="createUserButton" class="btn btn-success createUser" href="javascript:void(0)">
+    <i class="icon-user icon-white"></i>
+    Create</button>
+</form>   

@@ -41,6 +41,15 @@ public class UserController {
     users.put(user.getId(), user);
     return user;
   }
+
+  @RequestMapping(value="{id}", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
+  @ResponseStatus(HttpStatus.OK)
+  public void update(@RequestBody User user) {
+    // get user from our in-memory collection of users
+    User userToEdit = users.get(user.getId());
+    userToEdit.setName(user.getName());
+    userToEdit.setEmail(user.getEmail());
+  }
   
   @RequestMapping(value="{id}", method = RequestMethod.DELETE)
   @ResponseStatus(HttpStatus.OK)
